@@ -12,7 +12,6 @@ const PageSettingsStore = create<Store>()(
 	persist(
 		(set, get) => ({
 				dark: false,
-				// toggleDark: () => set({dark : !get().dark})
 				toggleDark: () => {
 
 					set({dark : !get().dark})
