@@ -1,6 +1,6 @@
 import useAuth from "@/feature/auth/hooks/useAuth";
 import useSettingsStore from "@/hooks/useSettingsStore";
-import { MoonIcon } from "@heroicons/react/20/solid";
+import { MoonIcon, SunIcon } from "@heroicons/react/20/solid";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -51,7 +51,12 @@ export default function Welcome() {
 							Dark
 						</span>
 
-						: "Light"}
+						:
+						<span className="flex justify-center items-center gap-1">
+							<SunIcon className="h-4 w-4" />
+							Light
+						</span>
+					}
 				</button>
 			</section>
 
