@@ -1,4 +1,4 @@
-import useAuth from "@/feature/auth/hooks/useAuth";
+import useAuth from "@/features/auth/hooks/useAuth";
 import useSettingsStore from "@/hooks/useSettingsStore";
 import { MoonIcon, SunIcon } from "@heroicons/react/20/solid";
 import { UserCircleIcon } from "@heroicons/react/24/outline";

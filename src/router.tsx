@@ -5,11 +5,14 @@ import {
 } from "react-router-dom";
 import Error404 from "@src/errors/Error404";
 import App from "@src/App";
-import Login from "./feature/auth/Login";
-import Register from "./feature/auth/Register";
-import PrivateRoute from "./feature/auth/components/PrivateRoute";
-import Dashboard from "./feature/auth/ui/dashboard";
-import AuthLayout from "./feature/auth/components/layouts/AuthLayout";
+import Login from "./features/auth/Login";
+import Register from "./features/auth/Register";
+import PrivateRoute from "./features/auth/components/PrivateRoute";
+import Dashboard from "./features/auth/ui/dashboard";
+import AuthLayout from "./features/auth/components/layouts/AuthLayout";
+import Contacts from "./features/contacts/ui";
+import ContactCreate from "./features/contacts/ui/create";
+import ContactEdit from "./features/contacts/ui/edit";
 
 const AppRouter = createBrowserRouter(
 	createRoutesFromElements(
@@ -25,6 +28,10 @@ const AppRouter = createBrowserRouter(
 				errorElement={<Error404 />}
 				element={<PrivateRoute component={<AuthLayout />} />}>
 				<Route index element={<Dashboard />} />
+				<Route path="contacts" element={<Contacts />} />
+				<Route path="contacts/:slug/edit" element={<ContactEdit />} />
+				<Route path="contacts/create" element={<ContactCreate />} />
+
 			</Route>
 		</>
 

@@ -2,12 +2,13 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, UserCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import useAuth from "@src/feature/auth/hooks/useAuth";
+import useAuth from "@/features/auth/hooks/useAuth";
 import { MoonIcon, SunIcon } from "@heroicons/react/20/solid";
 import useSettingsStore from "@/hooks/useSettingsStore";
 
 const navigation = [
 	{ name: "Dashboard", href: "/dashboard" },
+	{ name: "Contacts", href: "/dashboard/contacts" },
 ];
 const userNavigation = [
 	{ name: "Profile", slug: "profile", href: "/dashboard/profile" },
