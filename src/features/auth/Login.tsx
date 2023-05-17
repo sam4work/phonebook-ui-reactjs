@@ -4,9 +4,8 @@ import useAuth from "./hooks/useAuth";
 
 const Login = () => {
 
-	const [errors, setErrors] = useState<string>();
 
-	const { login } = useAuth("public", "/dashboard")
+	const { login, errors } = useAuth("public", "/dashboard")
 
 
 	const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
@@ -14,15 +13,10 @@ const Login = () => {
 		e.preventDefault()
 
 		const data = new FormData(e.currentTarget)
-		const email = data.get("email")?.toString() ?? "";
-		const password = data.get("password")?.toString() ?? "";
 
-		if (email !== "" || password !== "") {
+		if (data.has("email") && data.has("password")) {
 
-			await login({
-				email: email,
-				password: password,
-			}, setErrors)
+			await login(data);
 
 		}
 
@@ -60,14 +54,17 @@ const Login = () => {
 					<h2 className="mt-10 text-center text-3xl font-bold leading-9 tracking-tight text-gray-900 dark:text-gray-300">
 						Sign in to your account
 					</h2>
-					<p
+					<ul
 						className={
-							(errors ? " visible " : " invisible ") +
-							" text-center text-sm bg-red-50 p-2 text-red-500 mt-2"
+							(Object.keys(errors).length > 0 ? " visible " : " invisible ") +
+							" text-center text-sm border border-red-50 p-2 text-red-500 mt-2"
 						}
 					>
-						{errors}
-					</p>
+						{Object.values(errors).map((e, idx: number) => (
+							<li key={'errors' + idx} className="block">{e}</li>
+						)
+						)}
+					</ul>
 				</div>
 
 				<div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">

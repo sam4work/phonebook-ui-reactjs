@@ -47,14 +47,17 @@ const {data:user, error, mutate } = useSWR("/api/user",async () => {
 
 	}
 
-	const login = async ({email,password} : IAuthCredentialProps,setErrors: (e: string) => void) => {
+	const login = async (data : FormData) => {
 		await csrf()
 		try {
-			await apiClient.post("/login", {email,password})
-			mutate()
+			const result = await apiClient.post("/login", data)
+
+			if(result.status === 204) mutate()
+
 		} catch (e) {
 
 			if (isAxiosError(e) && e.response) {
+				console.log(e.response.data)
 				setErrors(e.response.data.errors)
 				throw e
 			}
