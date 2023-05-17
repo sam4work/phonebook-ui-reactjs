@@ -61,7 +61,7 @@ export default function Welcome() {
 							>
 
 								<UserCircleIcon className="h-6 w-6 text-white" />
-								<span className="capitalize">{user.name}</span>
+								<span className="capitalize">{user.first_name}</span>
 							</Link>
 						</div>
 						:
