@@ -8,7 +8,7 @@ import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
 import useContact from "../hooks/useContact";
 import Button from "@/components/Button";
 import usePhoneNumber from "../hooks/usePhoneNumber";
-import { ToastContentProps, ToastOptions, toast } from "react-toastify";
+import { ToastOptions, toast } from "react-toastify";
 
 
 const types = [
