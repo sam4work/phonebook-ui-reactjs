@@ -8,6 +8,7 @@ import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
 import useContact from "../hooks/useContact";
 import Button from "@/components/Button";
 import usePhoneNumber from "../hooks/usePhoneNumber";
+import { ToastContentProps, ToastOptions, toast } from "react-toastify";
 
 
 const types = [
@@ -41,23 +42,37 @@ const ContactEdit = (): JSX.Element => {
 			const data = new FormData(e.currentTarget)
 
 
-			if (e.currentTarget.id === 'contact-update-form') {
-				await update({ id: contact.data[0].id, }, data);
+			if (data.has("first_name") && data.has("last_name")) {
+				const result = await update({ id: contact.data[0].id, }, data);
+				if (result.status === 204) notifyUser();
+				return;
 			}
 
-			if (e.currentTarget.id === 'phone-number-update-form') {
-				// data.append("type", data.get('type[*]') ?? "")
-				data.delete('type[value]')
-				data.delete('type[name]')
+			if (data.has("type") && data.has("sim_number")) {
 
-				console.log(e.currentTarget.name)
-				console.log(data)
 				data.append('id', e.currentTarget.name)
-				await updatePhoneNumber({ id: e.currentTarget.name, }, data);
+				const result = await updatePhoneNumber({ id: e.currentTarget.name, }, data);
+				if (result.status === 204) notifyUser();
+				return
 			}
 		}
 
 	};
+
+
+	const notifyUser = (message?: string, options?: ToastOptions) => {
+		toast(message ?? ' Update successful!', {
+			position: "top-right",
+			autoClose: 5000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: false,
+			draggable: true,
+			progress: undefined,
+			theme: "light",
+			...options
+		});
+	}
 
 
 	const loadData = async () => {
@@ -113,6 +128,7 @@ const ContactEdit = (): JSX.Element => {
 											defaultValue={contact.data[0].first_name}
 											name="first_name"
 											errors={errors.first_name}
+											id="first_name"
 											required
 										/>
 									</div>
@@ -124,6 +140,7 @@ const ContactEdit = (): JSX.Element => {
 											name="last_name"
 											errors={errors.last_name}
 											required
+
 										/>
 									</div>
 
@@ -167,15 +184,17 @@ const ContactEdit = (): JSX.Element => {
 												buttonName="Update"
 												key={phoneNumber.sim_number} className="">
 
+
 												<h3 className="text-white text-xs bg-gray-900 inline-block py-1 px-2 rounded-md">{idx + 1} / {contact.data[0].phone.length}</h3>
 												<div className="grid grid-cols-12 gap-4 items-end ">
 													<div className="col-span-6">
 														<DropdownList
 															label="Type *"
 															options={types}
-															name={`type_${phoneNumber.id.replaceAll("-", "_")}`}
+															name={`type`}
 															defaultValue={phoneNumber.type}
-															errors={errorsPhoneNumber[`type_${phoneNumber.id.replaceAll("-", "_")}` + '.value']}
+															errors={errorsPhoneNumber.type}
+
 														/>
 													</div>
 
@@ -186,10 +205,10 @@ const ContactEdit = (): JSX.Element => {
 															placeholder="E.g. +xxxxxxxxxxxx"
 															type="tel"
 															defaultValue={phoneNumber.sim_number}
-															name={`sim_number_${phoneNumber.id.replaceAll("-", "_")}`}
-															pattern="[+]+[0-9]{12,16}"
+															name={`sim_number`}
+															pattern="[+]+[0-9]{10,16}"
 															title="Enter "
-															errors={errorsPhoneNumber[`sim_number_${phoneNumber.id.replaceAll("-", "_")}`]}
+															errors={errorsPhoneNumber.sim_number}
 														/>
 													</div>
 

@@ -9,7 +9,7 @@ const ContactTitle = (): JSX.Element => {
 				{contact.first_name} {contact.last_name}
 			</h4>
 			<h5 className="text-gray-400 dark:text-gray-500 flex items-center gap-1">
-				<PhoneIcon className="h-4 w-4" /> <pre>{"+233 50 6807157"}</pre>
+				<PhoneIcon className="h-4 w-4" /> <pre>{contact.phone[0].sim_number}</pre>
 			</h5>
 		</div>
 	);

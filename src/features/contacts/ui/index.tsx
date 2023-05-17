@@ -1,5 +1,5 @@
 import { CheckCircleIcon, CircleStackIcon, PlusCircleIcon, QuestionMarkCircleIcon } from "@heroicons/react/20/solid"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import useContact from "../hooks/useContact"
 import { useEffect, useState } from "react"
 import { IContact, IPhoneNumber } from "../types"
@@ -7,6 +7,8 @@ import ContactCard from "../components/contact-card"
 import Modal from "@/components/Modal"
 import Pagination from "@/components/Pagination"
 import PhoneNumbers from "../components/PhoneNumbers"
+import { toast } from "react-toastify"
+import SearchInput from "@/components/SearchInput"
 
 const Contacts = (): JSX.Element => {
 	const { contacts, get, remove } = useContact()
@@ -15,10 +17,26 @@ const Contacts = (): JSX.Element => {
 	const [modalContent, setModalContent] = useState<IContact>();
 	const [open, setOpen] = useState(false);
 
+	const [searchParams] = useSearchParams();
+
+
 
 
 	const handleDelete = async (id: string) => {
-		if (confirm("Do you want to delete contact ?")) await remove(id);
+		if (confirm("Do you want to delete contact ?")) {
+			if ((await remove(id))) {
+				toast('Contact deleted successfully!', {
+					position: "top-right",
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: false,
+					draggable: true,
+					progress: undefined,
+					theme: "light",
+				});
+			}
+		}
 	};
 
 	const viewModal = (contact: IContact) => {
@@ -31,13 +49,27 @@ const Contacts = (): JSX.Element => {
 	};
 
 
-	async function loadContacts() {
+	const loadContacts = async () => {
 		await get();
 	}
+
+
 
 	useEffect(() => {
 		loadContacts()
 	}, [])
+
+	useEffect(() => {
+		(async () => {
+			const currentParams: { [key: string]: string } = {
+				...Object.fromEntries(searchParams.entries()),
+			};
+
+			await get(currentParams ?? null);
+
+		})();
+
+	}, [searchParams]);
 
 	return (
 		<>
@@ -70,6 +102,9 @@ const Contacts = (): JSX.Element => {
 				</div>
 
 				<section className="grid sm:grid-cols-8 lg:grid-cols-12 gap-4 p-4">
+					<div className="col-span-full">
+						<SearchInput placeholder="Search by name or phone number." />
+					</div>
 
 					{
 						contacts ?

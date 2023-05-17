@@ -33,10 +33,31 @@ const Login = () => {
 
 	return (
 		<>
-			<div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+			<div className="flex min-h-screen flex-1 flex-col justify-center px-6 py-12 lg:px-8">
 				<div className="sm:mx-auto sm:w-full sm:max-w-sm">
+					<div className="flex items-center  justify-center">
+						<div className="flex-shrink-0 ">
+							<Link to={"/"}>
+								<svg
+									className="w-10 "
+									viewBox="0 0 24 24"
+									strokeLinejoin="round"
+									strokeWidth="2"
+									strokeLinecap="round"
+									strokeMiterlimit="10"
+									stroke="currentColor"
+									fill="none"
+								>
+									<rect x="3" y="1" width="7" height="12" />
+									<rect x="3" y="17" width="7" height="6" />
+									<rect x="14" y="1" width="7" height="6" />
+									<rect x="14" y="11" width="7" height="12" />
+								</svg>
+							</Link>
+						</div>
 
-					<h2 className="mt-10 text-center text-3xl font-bold leading-9 tracking-tight text-gray-900">
+					</div>
+					<h2 className="mt-10 text-center text-3xl font-bold leading-9 tracking-tight text-gray-900 dark:text-gray-300">
 						Sign in to your account
 					</h2>
 					<p
@@ -61,7 +82,7 @@ const Login = () => {
 									name="email"
 									type="email"
 									autoComplete="email"
-									value={"sam4work10@gmail.com"}
+									defaultValue={"sam4work10@gmail.com"}
 									required
 									className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
 								/>
@@ -85,7 +106,7 @@ const Login = () => {
 									name="password"
 									type="password"
 									autoComplete="current-password"
-									value={"sam4work10@gmail.com"}
+									defaultValue={"sam4work10@gmail.com"}
 									required
 									className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
 								/>

@@ -31,14 +31,11 @@ const ContactCreate = (): JSX.Element => {
 
 	const handleCreateContact = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const data = new FormData(e.currentTarget);
 
-		// Hack to clean up dropdown list data
-		data.append("type", data.get('type[value]') ?? "")
-		data.delete('type[value]')
-		data.delete('type[name]')
+		await create(
+			new FormData(e.currentTarget)
+		);
 
-		await create(data);
 	};
 
 	return (
@@ -97,6 +94,7 @@ const ContactCreate = (): JSX.Element => {
 										options={types}
 										name="type"
 										errors={errors.type}
+										defaultValue={types[0].value}
 									/>
 								</div>
 

@@ -1,7 +1,6 @@
 import { HTMLProps } from "react";
 
 interface IInputProps extends HTMLProps<HTMLInputElement> {
-	setError?: (error: string[]) => void;
 	errors?: string[];
 	helperText?: string
 }
@@ -11,7 +10,7 @@ const Input = (props: IInputProps) => {
 		<>
 			{props.label ? (
 				<label
-					htmlFor={props.htmlFor}
+					htmlFor={props.id}
 					className="block text-sm font-medium leading-6 text-gray-900"
 				>
 					{props.label} <span className="text-xs text-gray-400">{props.helperText}</span>
@@ -26,6 +25,7 @@ const Input = (props: IInputProps) => {
 				defaultValue={props.defaultValue}
 				id={props.id}
 				autoComplete={props.autoComplete}
+				required={props.required}
 				className={
 					`${props.errors ? " ring-red-500 " : ""}` +
 					` dark:bg-gray-800 dark:text-gray-300 text-lg ` +

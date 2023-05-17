@@ -1,12 +1,16 @@
 import { Outlet } from "react-router-dom";
 import NavigationBar from "../NavigationBar";
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+
 const AuthLayout = (): JSX.Element => {
 
 	return (
 		<>
 			<NavigationBar />
 			<div className="dark:bg-gray-900 min-h-screen overflow-x-hidden">
+				<ToastContainer />
 
 				<main className="overflow-x-hidden overflow-y-scroll">
 					<div className="mx-auto max-w-7xl py-6">

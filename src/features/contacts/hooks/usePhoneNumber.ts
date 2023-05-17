@@ -48,7 +48,7 @@ const get = async (params : {[key:string] : string} = {},url  = "") => {
 // Create New Contact
 const create = async ( data : FormData  ) => {
 
-	await makeApiRequest({
+	return await makeApiRequest({
 		url : `${RESOURSE_URL}`,
 		method : "POST",
 		data : data,
@@ -61,7 +61,7 @@ const create = async ( data : FormData  ) => {
 // Update Existing Contact
 const update = async (phoneNumber : {[key:string] : string | number} , data : FormData ) => {
 
-await makeApiRequest({
+return await makeApiRequest({
 	url : `${RESOURSE_URL}/${phoneNumber.id}`,
 	method : "PATCH",
 	data: data,
@@ -75,10 +75,15 @@ await makeApiRequest({
 
 // Delete Contact
 const remove = async (id : string) => {
-		await makeApiRequest({method : "DELETE",  url:`${RESOURSE_URL}/${id},`})
+		const result = await makeApiRequest({
+			url:`${RESOURSE_URL}/${id}`,
+			method : "DELETE",  
+		})
 		await get(
 			Object.fromEntries(searchParams.entries()) ?? null
 		)
+
+		return result;
 
 }
 
