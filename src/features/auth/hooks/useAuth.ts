@@ -7,12 +7,6 @@ import useSWR from 'swr'
 
 
 
-interface IAuthCredentialProps {
-	email:string,
-	password:string,
-	name?:string,
-	password_confirmation?:string,
-}
 
 const useAuth = (middleware:string,redirectPath?:string) => {
 
