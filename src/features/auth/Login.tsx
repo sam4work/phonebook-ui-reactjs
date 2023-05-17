@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import { Link } from "react-router-dom";
 import useAuth from "./hooks/useAuth";
 
@@ -15,11 +15,8 @@ const Login = () => {
 		const data = new FormData(e.currentTarget)
 
 		if (data.has("email") && data.has("password")) {
-
 			await login(data);
-
 		}
-
 
 	}
 
