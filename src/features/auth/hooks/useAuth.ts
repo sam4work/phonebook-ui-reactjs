@@ -6,10 +6,6 @@ import { useNavigate } from "react-router-dom"
 import useSWR from 'swr'
 
 
-interface IUseAuthProps {
-	middleware: string,
-	redirectPath?:  string
-}
 
 interface IAuthCredentialProps {
 	email:string,
@@ -54,7 +50,7 @@ const {data:user, error, mutate } = useSWR("/api/user",async () => {
 	const login = async ({email,password} : IAuthCredentialProps,setErrors: (e: string) => void) => {
 		await csrf()
 		try {
-			const loginResponse = await apiClient.post("/login", {email,password})
+			await apiClient.post("/login", {email,password})
 			mutate()
 		} catch (e) {
 
