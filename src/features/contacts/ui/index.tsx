@@ -6,9 +6,10 @@ import { IContact } from "../types"
 import ContactCard from "../components/contact-card"
 import Modal from "@/components/Modal"
 import Pagination from "@/components/Pagination"
-import PhoneNumbers from "../components/PhoneNumbers"
 import { toast } from "react-toastify"
 import SearchInput from "@/components/SearchInput"
+import { motion } from "framer-motion"
+import PhoneNumbers from "../components/PhoneNumbers"
 
 const Contacts = (): JSX.Element => {
 	const { contacts, get, remove } = useContact()
@@ -105,30 +106,37 @@ const Contacts = (): JSX.Element => {
 							<>
 								{
 									contacts.data.map((contact: IContact) => (
-										<ContactCard
+
+
+										<motion.div
+											className="col-span-4"
+											initial={{ opacity: 0, scale: 0.5, pointsAtY: -100 }}
+											animate={{ opacity: 1, scale: 1, pointsAtY: 0 }}
+											transition={{ duration: 0.5, }}
 											key={`contact-0${contact.id}`}
-											contact={contact}
-											image={<ContactCard.Image />}
-											info={
-												<>
-													<ContactCard.Title />
-													<ContactCard.Actions
-														handleView={viewModal}
-														handleUpdate={handleUpdate}
-														handleDelete={handleDelete}
-													/>
-												</>
-											}
-										/>
+										>
+											<ContactCard
+												contact={contact}
+												image={<ContactCard.Image />}
+												info={
+													<>
+														<ContactCard.Title />
+														<ContactCard.Actions
+															handleView={viewModal}
+															handleUpdate={handleUpdate}
+															handleDelete={handleDelete}
+														/>
+													</>
+												}
+											/>
+
+										</motion.div>
+
 									))
 								}
 
-
-
 							</>
 							: null
-
-
 					}
 
 
@@ -136,7 +144,7 @@ const Contacts = (): JSX.Element => {
 						open={open}
 						setOpen={setOpen}
 						title={<span>{modalContent?.first_name} {modalContent?.last_name}</span>}
-						children={<div>{JSON.stringify(modalContent)}</div>}
+						children={<PhoneNumbers data={modalContent?.phone ?? []} />}
 						icon={
 							modalContent && modalContent.phone ? (
 								<CheckCircleIcon
@@ -175,27 +183,6 @@ const Contacts = (): JSX.Element => {
 
 
 					}
-
-
-					<Modal
-						open={open}
-						setOpen={setOpen}
-						title={<span>{modalContent?.first_name} {modalContent?.last_name}</span>}
-						children={<PhoneNumbers data={modalContent?.phone ?? []} />}
-						icon={
-							modalContent && modalContent.phone ? (
-								<CheckCircleIcon
-									className="h-6 w-6 text-green-600"
-									aria-hidden="true"
-								/>
-							) : (
-								<QuestionMarkCircleIcon
-									className="h-6 w-6 text-red-600"
-									aria-hidden="true"
-								/>
-							)
-						}
-					/>
 
 				</section>
 
