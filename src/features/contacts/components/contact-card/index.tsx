@@ -15,7 +15,7 @@ interface IContactCardProps {
 const ContactCard = ({ image, info, contact }: IContactCardProps) => {
 	return (
 		<ContactCardContext.Provider value={{ contact }}>
-			<article className="col-span-4 grid grid-cols-12 gap-2 px-3 py-2 rounded-md overflow-hidden hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-gray-600 border dark:bg-gray-800 border-gray-300 dark:border-gray-700 cursor-pointer group">
+			<article className="w-full grid grid-cols-12 gap-2 px-3 py-2 rounded-md overflow-hidden hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-gray-600 border dark:bg-gray-800 border-gray-300 dark:border-gray-700 cursor-pointer group">
 				<div className="col-span-2">{image}</div>
 				<div className="col-span-10">{info}</div>
 			</article>
