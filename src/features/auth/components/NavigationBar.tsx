@@ -11,8 +11,6 @@ const navigation = [
 	{ name: "Contacts", href: "/dashboard/contacts" },
 ];
 const userNavigation = [
-	{ name: "Profile", slug: "profile", href: "/dashboard/profile" },
-	{ name: "Settings", slug: "settings", href: "#" },
 	{ name: "Sign out", slug: "sign-out", href: "#" },
 ];
 
@@ -183,8 +181,8 @@ const NavigationBar = (): JSX.Element => {
 										/>
 									</div>
 									<div className="ml-3">
-										<div className="text-base font-medium leading-none text-white">
-											{user?.name}
+										<div className="text-base font-medium leading-none text-white truncate">
+											{user?.first_name}
 										</div>
 										<div className="text-sm font-medium leading-none text-gray-400">
 											{user?.email}

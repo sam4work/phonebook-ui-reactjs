@@ -1,14 +1,15 @@
-import { FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import ImageUpload from "@/components/ImageUpload";
 import Form from "@/components/Form";
 import DropdownList from "@/components/DropdownList";
 import useContact from "../hooks/useContact";
 import Input from "@/components/Input";
+import { ToastOptions, toast } from "react-toastify";
 
 
 
 const ContactCreate = (): JSX.Element => {
+
 	const navigateTo = useNavigate();
 
 	const { create, errors } = useContact();
@@ -32,11 +33,32 @@ const ContactCreate = (): JSX.Element => {
 	const handleCreateContact = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		await create(
+		const result = await create(
 			new FormData(e.currentTarget)
 		);
 
+		if (result.status === 201) {
+
+			notifyUser("Contact created successfully.");
+			navigateTo("/dashboard/contacts");
+		}
+
 	};
+
+
+	const notifyUser = (message?: string, options?: ToastOptions) => {
+		toast(message ?? ' Update successful!', {
+			position: "top-right",
+			autoClose: 5000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: false,
+			draggable: true,
+			progress: undefined,
+			theme: "light",
+			...options
+		});
+	}
 
 	return (
 		<>
@@ -56,23 +78,15 @@ const ContactCreate = (): JSX.Element => {
 						</div>
 					</div>
 					<div className="mt-5 md:col-span-2 md:mt-0">
-						<Form onSubmit={handleCreateContact} encType="multipart/form-data">
+						<Form onSubmit={handleCreateContact} >
 
 
-							<div>
-								<ImageUpload
-									name="image"
-									accept=".png,.jpg,.jpeg"
-									errors={errors.image}
-								/>
-							</div>
 							<div className="grid grid-cols-6 sm:grid-cols-12 gap-6">
 
 
 								<div className="col-span-6">
 									<Input
 										label="First Name *"
-										defaultValue={"Hindolo"}
 										name="first_name"
 										errors={errors.first_name}
 									/>
@@ -81,7 +95,6 @@ const ContactCreate = (): JSX.Element => {
 								<div className="col-span-6">
 									<Input
 										label="Last Name *"
-										defaultValue={"Sam"}
 										name="last_name"
 										errors={errors.last_name}
 									/>
@@ -104,7 +117,6 @@ const ContactCreate = (): JSX.Element => {
 										helperText="e164 PhoneNumber format"
 										placeholder="E.g. +xxxxxxxxxxxx"
 										type="tel"
-										defaultValue={"+232506807157"}
 										name="sim_number"
 										pattern="[+]+[0-9]{12,16}"
 										title="Enter "

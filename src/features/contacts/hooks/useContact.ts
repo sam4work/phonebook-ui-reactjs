@@ -50,13 +50,10 @@ const get = async (params : {[key:string] : string} = {},url  = "") => {
 // Create New Contact
 const create = async ( data : FormData  ) => {
 
-	await makeApiRequest({
+	return await makeApiRequest({
 		url : `${RESOURSE_URL}`,
 		method : "POST",
 		data : data,
-		headers: {
-			"Content-Type": "application/json"
-		}
 	});
 }
 

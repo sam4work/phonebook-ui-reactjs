@@ -1,6 +1,7 @@
+import { IErrorObject } from "@/features/contacts/types"
 import apiClient from "@/lib/axiosClient"
 import { isAxiosError } from "axios"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import useSWR from 'swr'
 
@@ -20,6 +21,8 @@ interface IAuthCredentialProps {
 const useAuth = (middleware:string,redirectPath?:string) => {
 
 	const navigateTo = useNavigate();
+	const [errors, setErrors] = useState<IErrorObject>({});
+
 
 const {data:user, error, mutate } = useSWR("/api/user",async () => {
 	try{
@@ -34,7 +37,19 @@ const {data:user, error, mutate } = useSWR("/api/user",async () => {
 
 	const csrf = () => apiClient.get("sanctum/csrf-cookie");
 
+	const register = async (data : FormData) => {
+		await csrf()
+		try {
+			await apiClient.post("/register", data)
+			mutate()
+		} catch (e) {
+			if (isAxiosError(e) && e.response) {
+				setErrors(e.response.data.errors)
+				throw e
+			}
+		}
 
+	}
 
 	const login = async ({email,password} : IAuthCredentialProps,setErrors: (e: string) => void) => {
 		await csrf()
@@ -75,7 +90,9 @@ const {data:user, error, mutate } = useSWR("/api/user",async () => {
 			login,
 			user,
 			error,
-			logout
+			errors,
+			logout,
+			register
 		}
 }
 

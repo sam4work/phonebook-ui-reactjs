@@ -2,7 +2,7 @@ import { CheckCircleIcon, CircleStackIcon, PlusCircleIcon, QuestionMarkCircleIco
 import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import useContact from "../hooks/useContact"
 import { useEffect, useState } from "react"
-import { IContact, IPhoneNumber } from "../types"
+import { IContact } from "../types"
 import ContactCard from "../components/contact-card"
 import Modal from "@/components/Modal"
 import Pagination from "@/components/Pagination"
@@ -50,26 +50,20 @@ const Contacts = (): JSX.Element => {
 
 
 	const loadContacts = async () => {
-		await get();
-	}
 
+		const currentParams: { [key: string]: string } = {
+			...Object.fromEntries(searchParams.entries()),
+		};
+
+		await get(currentParams ?? null);
+
+	}
 
 
 	useEffect(() => {
 		loadContacts()
-	}, [])
+	}, [searchParams])
 
-	useEffect(() => {
-		(async () => {
-			const currentParams: { [key: string]: string } = {
-				...Object.fromEntries(searchParams.entries()),
-			};
-
-			await get(currentParams ?? null);
-
-		})();
-
-	}, [searchParams]);
 
 	return (
 		<>
@@ -82,7 +76,7 @@ const Contacts = (): JSX.Element => {
 				<div className="bg-gray-200 dark:bg-gray-800 grid grid-cols-12 gap-4 items-center px-4 py-2 ">
 
 					<div className="col-span-6">
-						<h3 className="text-xl font-semibold">Contacts</h3>
+						<h3 className="text-xl font-semibold dark:text-gray-300">Contacts</h3>
 					</div>
 
 					<div className="col-span-6 text-right">
@@ -93,7 +87,7 @@ const Contacts = (): JSX.Element => {
 
 							<span className="flex justify-center items-center gap-1 ">
 								<PlusCircleIcon className="h-4 w-4" />
-								Add new contact
+								<span className="hidden md:inline-block">Add new contact</span>
 							</span>
 
 						</Link>
